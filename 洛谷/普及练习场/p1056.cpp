@@ -1,65 +1,59 @@
+/*************************************************************************
+	> File Name: p1056.cpp
+	> Author: 
+	> Mail: 
+	> Created Time: 2018å¹´08æœˆ23æ—¥ æ˜ŸæœŸå›› 12æ—¶59åˆ†22ç§’
+ ************************************************************************/
+
 #include <iostream>
-#include <string.h>
 #include <algorithm>
-#include <cstdio>
 using namespace std;
-int M, N, K, L, D;
-int MM[1003],NN[1003];
-int KK[1003],LL[1003]; 
+
+#define maxn 2000
+int m,n,k,l,d;
+int a[maxn + 5][4] = {0};
+//int hl[1005] = {0};
+//int shu[1005] = {0};
+int x1,y1,x2,y2;
+struct node{
+    int index;
+    int num;
+}hl[1005],shu[1005];
+
+
+bool comp(struct node a,struct node b){
+    return a.num > b.num;
+}
+
+bool cmp(struct node a,struct node b){
+    return a.index < b.index;
+}
 int main(){
-	int xi,yi;
-	int pi,qi;
-	memset(MM,0,sizeof(MM));
-	memset(NN,0,sizeof(NN));
-	memset(KK,0,sizeof(MM));
-	memset(LL,0,sizeof(NN));	
-	scanf("%d %d %d %d %d",&M, &N, &K, &L, &D);
-	
-	for(int i = 0; i < D; i++){
-		scanf("%d %d %d %d",&xi,&yi,&pi,&qi);
-		if(xi == pi){//Í³¼ÆÁÐ 
-			yi < qi ?NN[yi]++:NN[qi++];
-		}
-		if(yi == qi){//Í³¼ÆÐÐ 
-			xi < pi? MM[xi]++:MM[pi++];
-		}
-	}
-	for(int i = 0; i < K; i++){
-		int max = 0;
-		int temp = 0;
-		for(int j = 1; j < M; j++){
-			if(MM[j] > temp){
-				temp = MM[j];
-				max = j;
-			}
-		}
-		KK[i] = max;
-		MM[max] = 0;
-	}
-	for(int i = 0; i < L; i++){
-		int max = 0;
-		int temp = 0;
-		for(int j = 1; j < N; j++){
-			if(NN[j] > temp){
-				temp = NN[j];
-				max = j;
-			}
-		}
-		LL[i] = max;
-		NN[max] = 0;
-	}
-	sort(KK,KK + K);
-	sort(LL,LL + L);
-	
-	for(int i = 0; i < K - 1; i++){
-		printf("%d ",KK[i]);
-	}
-	printf("%d\n",KK[K - 1]);
-	for(int i = 0; i < L - 1; i++){
-		printf("%d ",LL[i]);
-	}
-	printf("%d\n",LL[L - 1]);
-	
-	
-	return 0;
+   cin >> m >> n >> k >> l >> d;
+    for(int i = 0; i< d; i++){
+        cin >> x1 >> y1 >> x2 >> y2;
+        if(x1 == x2){
+            int y = y1 < y2 ? y1: y2;
+            shu[y].index = y;
+            shu[y].num++;
+        }else if (y1 == y2){
+            int x = (x1 < x2 ? x1 : x2);
+            hl[x].index= x;
+            hl[x].num++;
+        }
+    }
+    sort(shu,shu + n,comp);
+    sort(hl,hl + m, comp);
+    sort(shu,shu + l,cmp);
+    sort(hl,hl + k,cmp);
+
+    for(int i = 0; i < k; i++){
+        cout << hl[i].index << " ";
+    }
+    cout << endl;
+    for(int i = 0; i< l; i++){
+        cout << shu[i].index << " ";
+    }
+
+    return 0;
 }
